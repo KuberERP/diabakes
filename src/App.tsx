@@ -19,7 +19,9 @@ import {
   Gift,
   Heart,
   Palette,
-  Truck
+  Truck,
+  MessageSquare,
+  Send
 } from 'lucide-react';
 
 // --- Types ---
@@ -30,29 +32,34 @@ interface CakeItem {
   desc: string;
   price: number;
   unit: string;
-  tag: 'popular' | 'chocolate' | 'fruit' | 'custom';
+  tag: 'popular' | 'chocolate' | 'fruit' | 'custom' | 'bento';
   badge?: 'best' | 'new';
   oldPrice?: number;
 }
 
 // --- Data ---
-const CAKES: CakeItem[] = [
-  { id: 1, name: 'Dark Forest', emoji: '🍫', desc: 'Rich chocolate layers with cherry cream and dark cocoa — a crowd favorite.', price: 1080, unit: 'kg', tag: 'popular', badge: 'best' },
-  { id: 2, name: 'Red Velvet', emoji: '🌹', desc: 'Velvety red sponge with cream cheese frosting — utterly indulgent.', price: 1080, unit: 'kg', tag: 'popular', badge: 'best' },
-  { id: 3, name: 'Classic Chocolate', emoji: '🍫', desc: 'Made with premium cocoa. Timeless and irresistible for any occasion.', price: 990, unit: 'kg', tag: 'chocolate', oldPrice: 1100 },
-  { id: 4, name: 'Strawberry Dream', emoji: '🍓', desc: 'Fresh strawberries with light cream — vibrant, fruity, and gorgeous.', price: 855, unit: 'kg', tag: 'fruit' },
-  { id: 5, name: 'Green Apple', emoji: '🍏', desc: 'Tangy green apple sponge with vanilla cream for a refreshing twist.', price: 855, unit: 'kg', tag: 'fruit' },
-  { id: 6, name: 'Kiwi Delight', emoji: '🥝', desc: 'Tropical kiwi flavor on a light sponge base. Unique and delicious.', price: 855, unit: 'kg', tag: 'fruit', badge: 'new' },
-  { id: 7, name: 'Vanilla Classic', emoji: '🤍', desc: 'Pure Madagascar vanilla in a fluffy sponge with butter cream frosting.', price: 765, unit: 'kg', tag: 'popular' },
-  { id: 8, name: 'Bento Cake Set', emoji: '🍱', desc: 'Adorable mini cakes in a beautiful gift box — perfect for gifting.', price: 250, unit: 'set', tag: 'custom', badge: 'new' },
+const INITIAL_CAKES: CakeItem[] = [
+  { id: 1, name: 'Dark Forest', emoji: '🍫', desc: 'Rich chocolate layers with cherry cream and dark cocoa — a crowd favorite.', price: 1200, unit: 'kg', tag: 'popular', badge: 'best' },
+  { id: 2, name: 'Red Velvet', emoji: '🌹', desc: 'Velvety red sponge with cream cheese frosting — utterly indulgent.', price: 1200, unit: 'kg', tag: 'popular', badge: 'best' },
+  { id: 10, name: 'White Forest', emoji: '🎂', desc: 'Snowy white chocolate shavings over light vanilla sponge and cream.', price: 1200, unit: 'kg', tag: 'popular', badge: 'new' },
+  { id: 3, name: 'Classic Chocolate', emoji: '🍫', desc: 'Made with premium cocoa. Timeless and irresistible for any occasion.', price: 1100, unit: 'kg', tag: 'chocolate' },
+  { id: 11, name: 'Mango Delight', emoji: '🥭', desc: 'Sun-ripened mango flavor with light cream for a tropical escape.', price: 950, unit: 'kg', tag: 'fruit' },
+  { id: 4, name: 'Strawberry Dream', emoji: '🍓', desc: 'Fresh strawberries with light cream — vibrant, fruity, and gorgeous.', price: 950, unit: 'kg', tag: 'fruit' },
+  { id: 5, name: 'Green Apple', emoji: '🍏', desc: 'Tangy green apple sponge with vanilla cream for a refreshing twist.', price: 950, unit: 'kg', tag: 'fruit' },
+  { id: 6, name: 'Kiwi Delight', emoji: '🥝', desc: 'Tropical kiwi flavor on a light sponge base. Unique and delicious.', price: 950, unit: 'kg', tag: 'fruit' },
+  { id: 7, name: 'Vanilla Classic', emoji: '🤍', desc: 'Pure Madagascar vanilla in a fluffy sponge with butter cream frosting.', price: 850, unit: 'kg', tag: 'popular' },
+  { id: 8, name: 'Vanilla Bento', emoji: '🍱', desc: 'Adorable mini vanilla cake in a signature gift box.', price: 250, unit: 'set', tag: 'bento', badge: 'new' },
+  { id: 12, name: 'Fruit Bento', emoji: '🍱', desc: 'Fresh fruity mini cake in a signature gift box.', price: 260, unit: 'set', tag: 'bento' },
+  { id: 13, name: 'Choco Bento', emoji: '🍱', desc: 'Rich chocolate mini cake in a signature gift box.', price: 260, unit: 'set', tag: 'bento' },
+  { id: 14, name: 'Red Velvet Bento', emoji: '🍱', desc: 'Luxury red velvet mini cake in a signature gift box.', price: 280, unit: 'set', tag: 'bento' },
   { id: 9, name: 'Combo Celebration', emoji: '🎁', desc: 'Our bestselling combo pack — mini cakes assorted by flavor.', price: 500, unit: 'combo', tag: 'popular' },
 ];
 
 const CATEGORIES = [
   { name: 'Birthday Cakes', icon: <Cake className="w-6 h-6" />, desc: 'Make every birthday unforgettable', count: '12 options', filter: 'popular' },
   { name: 'Wedding Cakes', icon: <Heart className="w-6 h-6" />, desc: 'Elegant multi-tier masterpieces', count: '8 options', filter: 'custom' },
+  { name: 'Bento Cakes', icon: <Gift className="w-6 h-6" />, desc: 'Adorable mini cakes for gifting', count: '6 options', filter: 'bento' },
   { name: 'Custom Art', icon: <Palette className="w-6 h-6" />, desc: 'Your vision, our craft', count: '∞ options', filter: 'custom' },
-  { name: 'Bento Sets', icon: <Gift className="w-6 h-6" />, desc: 'Adorable mini cakes for gifting', count: '6 options', filter: 'custom' },
 ];
 
 // --- Components ---
@@ -95,18 +102,91 @@ const Navbar = () => {
 };
 
 export default function App() {
-  const [filter, setFilter] = useState<'all' | 'popular' | 'chocolate' | 'fruit' | 'custom'>('all');
+  const [filter, setFilter] = useState<'all' | 'popular' | 'chocolate' | 'fruit' | 'custom' | 'bento'>('all');
+  const [cakes, setCakes] = useState<CakeItem[]>(INITIAL_CAKES);
   const [cartCount, setCartCount] = useState(0);
   const [selectedCake, setSelectedCake] = useState<CakeItem | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  // Admin State
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminPasscode, setAdminPasscode] = useState('');
+
+  // Form State
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    flavour: cakes[0].name,
+    date: '',
+    size: '1.0 kg (Classic)',
+    message: '',
+    notes: ''
+  });
 
   const filteredCakes = useMemo(() => {
-    if (filter === 'all') return CAKES;
-    return CAKES.filter(c => c.tag === filter);
-  }, [filter]);
+    if (filter === 'all') return cakes;
+    return cakes.filter(c => c.tag === filter);
+  }, [filter, cakes]);
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const handleAddToCart = () => {
     setCartCount(prev => prev + 1);
+    if (selectedCake) {
+      setFormData(prev => ({ ...prev, flavour: selectedCake.name }));
+      showToast(`Added ${selectedCake.emoji} ${selectedCake.name} to highlights!`);
+    }
     setSelectedCake(null);
+  };
+
+  const handlePriceChange = (id: number, newPrice: string) => {
+    const price = parseInt(newPrice);
+    if (isNaN(price)) return;
+    setCakes(prev => prev.map(c => c.id === id ? { ...c, price } : c));
+    showToast('Price updated locally!');
+  };
+
+  const loginAdmin = () => {
+    if (adminPasscode === '1234') { // Default owner passcode
+      setIsAdmin(true);
+      setShowAdminLogin(false);
+      showToast('Welcome back, Owner! 🎂');
+    } else {
+      showToast('Incorrect passcode.');
+    }
+  };
+
+  const handleOrderSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Slight delay for "sexier" feel
+    await new Promise(resolve => setTimeout(resolve, 800));
+
+    const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '910000000000';
+    const message = `🎂 *New DIABAKES Order Request!*
+    
+👤 *Name:* ${formData.name}
+📱 *WhatsApp:* ${formData.phone}
+🍰 *Flavour:* ${formData.flavour}
+📏 *Size/Weight:* ${formData.size}
+📅 *Preferred Date:* ${formData.date}
+✉️ *Cake Message:* ${formData.message || 'None'}
+📝 *Extra Notes:* ${formData.notes || 'None'}
+
+_Sent from DIABAKES Web Store_`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+    setIsSubmitting(false);
+    showToast('Redirecting to WhatsApp... 🚀');
   };
 
   return (
@@ -251,7 +331,7 @@ export default function App() {
             </div>
             
             <div className="flex flex-wrap gap-2">
-              {['all', 'popular', 'chocolate', 'fruit', 'custom'].map((t) => (
+              {['all', 'popular', 'chocolate', 'fruit', 'bento', 'custom'].map((t) => (
                 <button
                   key={t}
                   onClick={() => setFilter(t as any)}
@@ -302,7 +382,16 @@ export default function App() {
                       <div className="flex flex-col">
                         <span className="text-[10px] uppercase font-bold text-warm-gray/60 tracking-wider">Price from</span>
                         <div className="flex items-baseline gap-2">
-                          <span className="font-serif text-2xl font-black text-rose">₹{cake.price}</span>
+                          {isAdmin ? (
+                            <input 
+                              type="number" 
+                              value={cake.price} 
+                              onChange={(e) => handlePriceChange(cake.id, e.target.value)}
+                              className="font-serif text-2xl font-black text-rose w-24 bg-rose/5 border border-rose/10 rounded px-1 outline-none"
+                            />
+                          ) : (
+                            <span className="font-serif text-2xl font-black text-rose">₹{cake.price}</span>
+                          )}
                           {cake.oldPrice && <span className="text-xs text-warm-gray/40 line-through">₹{cake.oldPrice}</span>}
                           <span className="text-[10px] text-warm-gray font-medium uppercase tracking-widest">/ {cake.unit}</span>
                         </div>
@@ -394,22 +483,40 @@ export default function App() {
             viewport={{ once: true }}
             className="bg-white p-10 md:p-14 rounded-[48px] shadow-[0_40px_100px_-20px_rgba(200,67,90,0.15)] border border-rose/5"
           >
-            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Order request sent! We will contact you on WhatsApp.'); }}>
+            <form className="space-y-6" onSubmit={handleOrderSubmit}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest pl-1">Full Name</label>
-                  <input type="text" required placeholder="Elena Gilbert" className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium" />
+                  <input 
+                    type="text" 
+                    required 
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Elena Gilbert" 
+                    className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium" 
+                  />
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest pl-1">WhatsApp No.</label>
-                  <input type="tel" required placeholder="+91 XXXXX XXXXX" className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium" />
+                  <input 
+                    type="tel" 
+                    required 
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="+91 XXXXX XXXXX" 
+                    className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium" 
+                  />
                 </div>
               </div>
               
               <div>
                 <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest pl-1">Selected Flavour</label>
-                <select className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium appearance-none">
-                  {CAKES.map(c => <option key={c.id}>{c.name}</option>)}
+                <select 
+                  value={formData.flavour}
+                  onChange={(e) => setFormData({ ...formData, flavour: e.target.value })}
+                  className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium appearance-none"
+                >
+                  {cakes.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
                   <option>Custom Vision</option>
                 </select>
               </div>
@@ -417,11 +524,21 @@ export default function App() {
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest pl-1">Preferred Date</label>
-                  <input type="date" required className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium" />
+                  <input 
+                    type="date" 
+                    required 
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium" 
+                  />
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest pl-1">Weight / Size</label>
-                  <select className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium appearance-none">
+                  <select 
+                    value={formData.size}
+                    onChange={(e) => setFormData({ ...formData, size: e.target.value })}
+                    className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium appearance-none"
+                  >
                     <option>0.5 kg (Miniature)</option>
                     <option>1.0 kg (Classic)</option>
                     <option>1.5 kg (Large)</option>
@@ -431,12 +548,43 @@ export default function App() {
               </div>
 
               <div>
-                <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest pl-1">Message for Us</label>
-                <textarea placeholder="Tell us about the occasion, design preferences, or allergies..." className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium min-height-[120px]" />
+                <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest pl-1">Message on Cake</label>
+                <input 
+                  type="text"
+                  placeholder="e.g. Happy Birthday Roshni!" 
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium" 
+                />
               </div>
 
-              <button type="submit" className="w-full bg-charcoal text-white py-5 rounded-2xl font-bold text-lg hover:bg-black transition-all shadow-xl shadow-black/10 active:scale-[0.98]">
-              🎂 Send Order Request
+              <div>
+                <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest pl-1">Special Notes</label>
+                <textarea 
+                  placeholder="Design preferences, allergies, or custom instructions..." 
+                  value={formData.notes}
+                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  className="w-full px-6 py-4 rounded-2xl bg-cream/50 border-2 border-transparent focus:border-rose/20 transition-all outline-none text-sm font-medium min-h-[100px]" 
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full bg-charcoal text-white py-5 rounded-2xl font-bold text-lg hover:bg-black transition-all shadow-xl shadow-black/10 active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-70"
+              >
+                {isSubmitting ? (
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full"
+                  />
+                ) : (
+                  <>
+                    <MessageSquare className="w-5 h-5 text-gold" />
+                    <span>Send Order via WhatsApp</span>
+                  </>
+                )}
               </button>
               
               <p className="text-center text-[11px] text-warm-gray/60 font-medium">
@@ -476,7 +624,7 @@ export default function App() {
           <div>
             <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-[10px]">Help & Info</h4>
             <ul className="space-y-4 text-sm">
-              <li><a href="#" className="hover:text-gold transition-colors">Track Order</a></li>
+              <li><button onClick={() => setShowAdminLogin(true)} className="hover:text-gold transition-colors">Owner Admin Panel</button></li>
               <li><a href="#" className="hover:text-gold transition-colors">Storage Tips</a></li>
               <li><a href="#" className="hover:text-gold transition-colors">Allergy Info</a></li>
               <li><a href="#" className="hover:text-gold transition-colors">FAQ</a></li>
@@ -506,6 +654,64 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed bottom-28 left-1/2 -translate-x-1/2 z-[70] bg-charcoal text-white px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm flex items-center gap-3"
+          >
+            <div className="w-2 h-2 rounded-full bg-rose animate-pulse" />
+            {toast}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Admin Login Modal */}
+      <AnimatePresence>
+        {showAdminLogin && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowAdminLogin(false)}
+              className="absolute inset-0 bg-charcoal/80 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative bg-white w-full max-w-sm rounded-[40px] p-10 shadow-2xl overflow-hidden"
+            >
+              <h3 className="font-serif text-3xl font-bold mb-2">Owner Login</h3>
+              <p className="text-warm-gray text-xs mb-8 uppercase tracking-widest font-bold">Price Management Portal</p>
+              
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-[10px] uppercase font-black text-warm-gray mb-2.5 tracking-widest">Enter Passcode</label>
+                  <input 
+                    type="password" 
+                    value={adminPasscode}
+                    onChange={(e) => setAdminPasscode(e.target.value)}
+                    placeholder="••••"
+                    className="w-full bg-cream rounded-2xl px-6 py-4 text-center text-2xl tracking-[0.5em] font-black focus:bg-rose-light/20 transition-all outline-none"
+                  />
+                </div>
+                <button 
+                  onClick={loginAdmin}
+                  className="w-full bg-charcoal text-white py-5 rounded-2xl font-bold hover:bg-black transition-all"
+                >
+                  Unlock Edit Mode
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Floating Elements */}
       <AnimatePresence>
