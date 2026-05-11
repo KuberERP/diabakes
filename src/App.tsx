@@ -29,37 +29,41 @@ interface CakeItem {
   id: number;
   name: string;
   emoji: string;
+  imageUrl?: string;
   desc: string;
   price: number;
+  halfKgPrice?: number;
   unit: string;
-  tag: 'popular' | 'chocolate' | 'fruit' | 'custom' | 'bento';
+  tag: 'popular' | 'chocolate' | 'fruit' | 'custom' | 'bento' | 'snack';
   badge?: 'best' | 'new';
   oldPrice?: number;
 }
 
 // --- Data ---
 const INITIAL_CAKES: CakeItem[] = [
-  { id: 1, name: 'Dark Forest', emoji: '🍫', desc: 'Rich chocolate layers with cherry cream and dark cocoa — a crowd favorite.', price: 1200, unit: 'kg', tag: 'popular', badge: 'best' },
-  { id: 2, name: 'Red Velvet', emoji: '🌹', desc: 'Velvety red sponge with cream cheese frosting — utterly indulgent.', price: 1200, unit: 'kg', tag: 'popular', badge: 'best' },
-  { id: 10, name: 'White Forest', emoji: '🎂', desc: 'Snowy white chocolate shavings over light vanilla sponge and cream.', price: 1200, unit: 'kg', tag: 'popular', badge: 'new' },
-  { id: 3, name: 'Classic Chocolate', emoji: '🍫', desc: 'Made with premium cocoa. Timeless and irresistible for any occasion.', price: 1100, unit: 'kg', tag: 'chocolate' },
-  { id: 11, name: 'Mango Delight', emoji: '🥭', desc: 'Sun-ripened mango flavor with light cream for a tropical escape.', price: 950, unit: 'kg', tag: 'fruit' },
-  { id: 4, name: 'Strawberry Dream', emoji: '🍓', desc: 'Fresh strawberries with light cream — vibrant, fruity, and gorgeous.', price: 950, unit: 'kg', tag: 'fruit' },
-  { id: 5, name: 'Green Apple', emoji: '🍏', desc: 'Tangy green apple sponge with vanilla cream for a refreshing twist.', price: 950, unit: 'kg', tag: 'fruit' },
-  { id: 6, name: 'Kiwi Delight', emoji: '🥝', desc: 'Tropical kiwi flavor on a light sponge base. Unique and delicious.', price: 950, unit: 'kg', tag: 'fruit' },
-  { id: 7, name: 'Vanilla Classic', emoji: '🤍', desc: 'Pure Madagascar vanilla in a fluffy sponge with butter cream frosting.', price: 850, unit: 'kg', tag: 'popular' },
+  { id: 1, name: 'Dark Forest', emoji: '🍫', desc: 'Rich chocolate layers with cherry cream and dark cocoa — a crowd favorite.', price: 1200, halfKgPrice: 600, unit: 'kg', tag: 'popular', badge: 'best' },
+  { id: 2, name: 'Red Velvet', emoji: '🌹', desc: 'Velvety red sponge with cream cheese frosting — utterly indulgent.', price: 1200, halfKgPrice: 600, unit: 'kg', tag: 'popular', badge: 'best' },
+  { id: 10, name: 'White Forest', emoji: '🎂', desc: 'Snowy white chocolate shavings over light vanilla sponge and cream.', price: 1200, halfKgPrice: 600, unit: 'kg', tag: 'popular', badge: 'new' },
+  { id: 3, name: 'Classic Chocolate', emoji: '🍫', desc: 'Made with premium cocoa. Timeless and irresistible for any occasion.', price: 1100, halfKgPrice: 550, unit: 'kg', tag: 'chocolate' },
+  { id: 11, name: 'Mango Delight', emoji: '🥭', desc: 'Sun-ripened mango flavor with light cream for a tropical escape.', price: 950, halfKgPrice: 500, unit: 'kg', tag: 'fruit' },
+  { id: 4, name: 'Strawberry Dream', emoji: '🍓', desc: 'Fresh strawberries with light cream — vibrant, fruity, and gorgeous.', price: 950, halfKgPrice: 500, unit: 'kg', tag: 'fruit' },
+  { id: 5, name: 'Green Apple', emoji: '🍏', desc: 'Tangy green apple sponge with vanilla cream for a refreshing twist.', price: 950, halfKgPrice: 500, unit: 'kg', tag: 'fruit' },
+  { id: 6, name: 'Kiwi Delight', emoji: '🥝', desc: 'Tropical kiwi flavor on a light sponge base. Unique and delicious.', price: 950, halfKgPrice: 500, unit: 'kg', tag: 'fruit' },
+  { id: 7, name: 'Vanilla Classic', emoji: '🤍', desc: 'Pure Madagascar vanilla in a fluffy sponge with butter cream frosting.', price: 850, halfKgPrice: 450, unit: 'kg', tag: 'popular' },
   { id: 8, name: 'Vanilla Bento', emoji: '🍱', desc: 'Adorable mini vanilla cake in a signature gift box.', price: 250, unit: 'set', tag: 'bento', badge: 'new' },
   { id: 12, name: 'Fruit Bento', emoji: '🍱', desc: 'Fresh fruity mini cake in a signature gift box.', price: 260, unit: 'set', tag: 'bento' },
   { id: 13, name: 'Choco Bento', emoji: '🍱', desc: 'Rich chocolate mini cake in a signature gift box.', price: 260, unit: 'set', tag: 'bento' },
   { id: 14, name: 'Red Velvet Bento', emoji: '🍱', desc: 'Luxury red velvet mini cake in a signature gift box.', price: 280, unit: 'set', tag: 'bento' },
+  { id: 15, name: 'Jar Cake', emoji: '🍯', desc: 'Delectable cake layers served in a reusable glass jar. Perfect on-the-go.', price: 50, unit: 'jar', tag: 'snack' },
+  { id: 16, name: 'Cup Cake', emoji: '🧁', desc: 'Bite-sized happiness with swirls of frosting and sprinkles.', price: 30, unit: 'pc', tag: 'snack' },
   { id: 9, name: 'Combo Celebration', emoji: '🎁', desc: 'Our bestselling combo pack — mini cakes assorted by flavor.', price: 500, unit: 'combo', tag: 'popular' },
 ];
 
 const CATEGORIES = [
   { name: 'Birthday Cakes', icon: <Cake className="w-6 h-6" />, desc: 'Make every birthday unforgettable', count: '12 options', filter: 'popular' },
   { name: 'Wedding Cakes', icon: <Heart className="w-6 h-6" />, desc: 'Elegant multi-tier masterpieces', count: '8 options', filter: 'custom' },
-  { name: 'Bento Cakes', icon: <Gift className="w-6 h-6" />, desc: 'Adorable mini cakes for gifting', count: '6 options', filter: 'bento' },
-  { name: 'Custom Art', icon: <Palette className="w-6 h-6" />, desc: 'Your vision, our craft', count: '∞ options', filter: 'custom' },
+  { name: 'Bento Cakes', icon: <Gift className="w-6 h-6" />, desc: 'Handy mini cakes for gifting', count: '4 options', filter: 'bento' },
+  { name: 'Jar & Cup Cakes', icon: <Gift className="w-6 h-6" />, desc: 'Quick sweets for small cravings', count: 'Varied', filter: 'snack' },
 ];
 
 // --- Components ---
@@ -102,10 +106,11 @@ const Navbar = () => {
 };
 
 export default function App() {
-  const [filter, setFilter] = useState<'all' | 'popular' | 'chocolate' | 'fruit' | 'custom' | 'bento'>('all');
+  const [filter, setFilter] = useState<'all' | 'popular' | 'chocolate' | 'fruit' | 'custom' | 'bento' | 'snack'>('all');
   const [cakes, setCakes] = useState<CakeItem[]>(INITIAL_CAKES);
   const [cartCount, setCartCount] = useState(0);
   const [selectedCake, setSelectedCake] = useState<CakeItem | null>(null);
+  const [selectedSize, setSelectedSize] = useState<'1.0 kg' | '0.5 kg'>('1.0 kg');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -138,16 +143,40 @@ export default function App() {
   const handleAddToCart = () => {
     setCartCount(prev => prev + 1);
     if (selectedCake) {
-      setFormData(prev => ({ ...prev, flavour: selectedCake.name }));
+      setFormData(prev => ({ ...prev, flavour: selectedCake.name, size: selectedSize === '1.0 kg' ? '1.0 kg (Classic)' : '0.5 kg (Miniature)' }));
       showToast(`Added ${selectedCake.emoji} ${selectedCake.name} to highlights!`);
     }
     setSelectedCake(null);
   };
 
-  const handlePriceChange = (id: number, newPrice: string) => {
+  const handleImageUpload = (id: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      setCakes(prev => prev.map(c => c.id === id ? { ...c, imageUrl: base64String } : c));
+      showToast('Photo updated!');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const currentPrice = useMemo(() => {
+    if (!selectedCake) return 0;
+    if (selectedSize === '0.5 kg' && selectedCake.halfKgPrice) return selectedCake.halfKgPrice;
+    return selectedCake.price;
+  }, [selectedCake, selectedSize]);
+
+  const handlePriceChange = (id: number, newPrice: string, isHalf = false) => {
     const price = parseInt(newPrice);
     if (isNaN(price)) return;
-    setCakes(prev => prev.map(c => c.id === id ? { ...c, price } : c));
+    setCakes(prev => prev.map(c => {
+      if (c.id === id) {
+        return isHalf ? { ...c, halfKgPrice: price } : { ...c, price };
+      }
+      return c;
+    }));
     showToast('Price updated locally!');
   };
 
@@ -192,6 +221,27 @@ _Sent from DIABAKES Web Store_`;
   return (
     <div className="relative overflow-x-hidden pt-20">
       <Navbar />
+
+      {/* Admin Mode Indicator */}
+      <AnimatePresence>
+        {isAdmin && (
+          <motion.div 
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -50, opacity: 0 }}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-[55] flex items-center gap-3 bg-rose text-white px-5 py-2 rounded-full shadow-2xl font-bold text-xs uppercase tracking-widest border border-white/20"
+          >
+            <Palette className="w-4 h-4" />
+            <span>Admin Mode (Prices & Photos)</span>
+            <button 
+              onClick={() => { setIsAdmin(false); showToast('Logged out of Admin mode.'); }}
+              className="ml-2 bg-white/20 hover:bg-white/40 px-3 py-1 rounded-full transition-colors font-black"
+            >
+              Exit
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Hero Section */}
       <section id="home" className="min-height-[90vh] relative flex items-center px-6 md:px-12 py-20 overflow-hidden">
@@ -331,7 +381,7 @@ _Sent from DIABAKES Web Store_`;
             </div>
             
             <div className="flex flex-wrap gap-2">
-              {['all', 'popular', 'chocolate', 'fruit', 'bento', 'custom'].map((t) => (
+              {['all', 'popular', 'chocolate', 'fruit', 'bento', 'snack', 'custom'].map((t) => (
                 <button
                   key={t}
                   onClick={() => setFilter(t as any)}
@@ -360,9 +410,31 @@ _Sent from DIABAKES Web Store_`;
                   whileHover={{ y: -8 }}
                   className="bg-white rounded-[40px] overflow-hidden border border-rose/5 shadow-[0_20px_50px_rgba(0,0,0,0.04)] group"
                 >
-                  <div className="h-64 relative flex items-center justify-center text-[100px] overflow-hidden bg-cream-dark">
-                    <div className="absolute inset-0 bg-gradient-to-br from-rose/5 to-gold/5 group-hover:scale-110 transition-transform duration-700" />
-                    <span className="relative z-10 drop-shadow-2xl">{cake.emoji}</span>
+                  <div className="h-64 relative flex items-center justify-center text-[100px] overflow-hidden bg-cream-dark group">
+                    {cake.imageUrl ? (
+                      <img src={cake.imageUrl} alt={cake.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 bg-gradient-to-br from-rose/5 to-gold/5 group-hover:scale-110 transition-transform duration-700" />
+                        <span className="relative z-10 drop-shadow-2xl">{cake.emoji}</span>
+                      </>
+                    )}
+                    
+                    {isAdmin && (
+                      <label className="absolute inset-0 z-20 bg-charcoal/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer">
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          className="hidden" 
+                          onChange={(e) => handleImageUpload(cake.id, e)} 
+                        />
+                        <div className="w-12 h-12 rounded-full bg-white text-rose flex items-center justify-center shadow-lg mb-2">
+                          <Palette className="w-6 h-6" />
+                        </div>
+                        <span className="text-[10px] uppercase font-black text-white tracking-widest">Update Photo</span>
+                      </label>
+                    )}
+
                     {cake.badge && (
                       <span className={`absolute top-6 right-6 px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-[0.1em] text-white ${
                         cake.badge === 'best' ? 'bg-gold' : 'bg-rose'
@@ -381,19 +453,39 @@ _Sent from DIABAKES Web Store_`;
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col">
                         <span className="text-[10px] uppercase font-bold text-warm-gray/60 tracking-wider">Price from</span>
-                        <div className="flex items-baseline gap-2">
-                          {isAdmin ? (
-                            <input 
-                              type="number" 
-                              value={cake.price} 
-                              onChange={(e) => handlePriceChange(cake.id, e.target.value)}
-                              className="font-serif text-2xl font-black text-rose w-24 bg-rose/5 border border-rose/10 rounded px-1 outline-none"
-                            />
-                          ) : (
-                            <span className="font-serif text-2xl font-black text-rose">₹{cake.price}</span>
-                          )}
-                          {cake.oldPrice && <span className="text-xs text-warm-gray/40 line-through">₹{cake.oldPrice}</span>}
-                          <span className="text-[10px] text-warm-gray font-medium uppercase tracking-widest">/ {cake.unit}</span>
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-baseline gap-2">
+                            {isAdmin ? (
+                              <div className="flex flex-col gap-1">
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[8px] uppercase font-bold text-warm-gray">1kg:</span>
+                                  <input 
+                                    type="number" 
+                                    value={cake.price} 
+                                    onChange={(e) => handlePriceChange(cake.id, e.target.value)}
+                                    className="font-serif text-lg font-black text-rose w-20 bg-rose/5 border border-rose/10 rounded px-1 outline-none"
+                                  />
+                                </div>
+                                {cake.halfKgPrice !== undefined && (
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-[8px] uppercase font-bold text-warm-gray">0.5kg:</span>
+                                    <input 
+                                      type="number" 
+                                      value={cake.halfKgPrice} 
+                                      onChange={(e) => handlePriceChange(cake.id, e.target.value, true)}
+                                      className="font-serif text-lg font-black text-gold w-20 bg-gold/5 border border-gold/10 rounded px-1 outline-none"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              <>
+                                <span className="font-serif text-2xl font-black text-rose">₹{cake.price}</span>
+                                {cake.oldPrice && <span className="text-xs text-warm-gray/40 line-through">₹{cake.oldPrice}</span>}
+                                <span className="text-[10px] text-warm-gray font-medium uppercase tracking-widest">/ {cake.unit}</span>
+                              </>
+                            )}
+                          </div>
                         </div>
                       </div>
                       
@@ -624,7 +716,15 @@ _Sent from DIABAKES Web Store_`;
           <div>
             <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-[10px]">Help & Info</h4>
             <ul className="space-y-4 text-sm">
-              <li><button onClick={() => setShowAdminLogin(true)} className="hover:text-gold transition-colors">Owner Admin Panel</button></li>
+              <li>
+                {isAdmin ? (
+                  <button onClick={() => { setIsAdmin(false); showToast('Logged out of Admin mode.'); }} className="text-rose font-bold hover:text-gold transition-colors flex items-center gap-2">
+                    <X className="w-4 h-4" /> Log Out (Admin)
+                  </button>
+                ) : (
+                  <button onClick={() => setShowAdminLogin(true)} className="hover:text-gold transition-colors">Owner Admin Panel</button>
+                )}
+              </li>
               <li><a href="#" className="hover:text-gold transition-colors">Storage Tips</a></li>
               <li><a href="#" className="hover:text-gold transition-colors">Allergy Info</a></li>
               <li><a href="#" className="hover:text-gold transition-colors">FAQ</a></li>
@@ -757,19 +857,43 @@ _Sent from DIABAKES Web Store_`;
               </button>
               
               <div className="text-center">
-                <span className="text-7xl block mb-6 drop-shadow-lg">{selectedCake.emoji}</span>
+                <div className="relative inline-block mb-6">
+                  {selectedCake.imageUrl ? (
+                    <img src={selectedCake.imageUrl} alt={selectedCake.name} className="w-32 h-32 rounded-3xl object-cover shadow-2xl" />
+                  ) : (
+                    <span className="text-7xl block drop-shadow-lg">{selectedCake.emoji}</span>
+                  )}
+                </div>
                 <h3 className="font-serif text-3xl font-bold mb-2">{selectedCake.name}</h3>
                 <p className="text-warm-gray text-sm mb-8 leading-relaxed">
                   {selectedCake.desc}
                 </p>
                 
                 <div className="flex flex-col items-center mb-8">
-                  <span className="text-[10px] uppercase font-black text-warm-gray tracking-[0.2em] mb-1">Starting from</span>
+                  <span className="text-[10px] uppercase font-black text-warm-gray tracking-[0.2em] mb-1">Price</span>
                   <div className="flex items-baseline gap-2">
-                    <span className="font-serif text-4xl font-black text-rose">₹{selectedCake.price}</span>
-                    <span className="text-[10px] font-bold uppercase text-warm-gray/60 tracking-widest">/ {selectedCake.unit}</span>
+                    <span className="font-serif text-4xl font-black text-rose">₹{currentPrice}</span>
+                    <span className="text-[10px] font-bold uppercase text-warm-gray/60 tracking-widest">
+                      / {selectedCake.unit === 'kg' ? selectedSize : selectedCake.unit}
+                    </span>
                   </div>
                 </div>
+
+                {selectedCake.halfKgPrice && (
+                  <div className="flex justify-center gap-3 mb-8">
+                    {['1.0 kg', '0.5 kg'].map(size => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size as any)}
+                        className={`px-6 py-2 rounded-xl text-xs font-bold transition-all ${
+                          selectedSize === size ? 'bg-rose text-white shadow-md' : 'bg-cream text-warm-gray hover:bg-rose-light/30'
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 
                 <div className="flex gap-4">
                   <button 
